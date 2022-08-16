@@ -1,0 +1,473 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告 | Yan2u's Blog</title><meta name="keywords" content="动态规划,字符串,SPFA"><meta name="author" content="Yan2u"><meta name="copyright" content="Yan2u"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目限制一览    题目 时间限制 空间限制     1. door 1000 MS 128 MB   2. escape 1000 MS 128 MB   3. graze 3000 MS 128 MB     1. 门卫（door.cpp）Description红美玲是红魔馆的门卫。最近红魔馆安保系统使用了新型的数据编码技术base64，可以 将数据转化为大小写字母、数字和+、&#x2F;、&#x3D;组成的字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告">
+<meta property="og:url" content="http://example.com/2019/10/22/2019-10-22-exam/">
+<meta property="og:site_name" content="Yan2u&#39;s Blog">
+<meta property="og:description" content="题目限制一览    题目 时间限制 空间限制     1. door 1000 MS 128 MB   2. escape 1000 MS 128 MB   3. graze 3000 MS 128 MB     1. 门卫（door.cpp）Description红美玲是红魔馆的门卫。最近红魔馆安保系统使用了新型的数据编码技术base64，可以 将数据转化为大小写字母、数字和+、&#x2F;、&#x3D;组成的字">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg">
+<meta property="article:published_time" content="2019-10-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-11T05:42:23.379Z">
+<meta property="article:author" content="Yan2u">
+<meta property="article:tag" content="动态规划">
+<meta property="article:tag" content="字符串">
+<meta property="article:tag" content="SPFA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2019/10/22/2019-10-22-exam/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-11 13:42:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s1.ax1x.com/2022/06/20/XjjdfK.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Yan2u's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-21T16:00:00.000Z" title="发表于 2019-10-22 00:00:00">2019-10-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-11T05:42:23.379Z" title="更新于 2022-08-11 13:42:23">2022-08-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/OI/">OI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><span id="more"></span>
+<h2 id="题目限制一览"><a href="#题目限制一览" class="headerlink" title="题目限制一览"></a>题目限制一览</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题目</th>
+<th style="text-align:center">时间限制</th>
+<th style="text-align:center">空间限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1. door</td>
+<td style="text-align:center">1000 MS</td>
+<td style="text-align:center">128 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">2. escape</td>
+<td style="text-align:center">1000 MS</td>
+<td style="text-align:center">128 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">3. graze</td>
+<td style="text-align:center">3000 MS</td>
+<td style="text-align:center">128 MB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="1-门卫（door-cpp）"><a href="#1-门卫（door-cpp）" class="headerlink" title="1. 门卫（door.cpp）"></a>1. 门卫（door.cpp）</h2><h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>红美玲是红魔馆的门卫。最近红魔馆安保系统使用了新型的数据编码技术base64，可以</p>
+<p>将数据转化为大小写字母、数字和+、/、=组成的字符串，具体方法如下： </p>
+<p>首先将输入字符三个三个分为一组：如果没有剩余（即字符串长度为3的倍数），则直接调用主过程（见下方描述）；如果剩1个，则加两个“\0”字符（ASCII码为0），使总长度变为3的倍数，调用主过程，并且将主过程转化后的字符串最后两个字符改为“==”；如果剩2个，则加一个“\0”字符，使总长度变为3的倍数，调用主过程，并且将主过程转化后的字符串最后一个字符改为“=”。 </p>
+<p>主过程：输入一个长度为3k的字符串，输出一个长度为4k的字符串。（k为非负整数。）循环以下过程n次,每次转换三个字符成为四个字符，循环n次转换出的字符串连接起来，即为最终的字符串。 </p>
+<p>每次将三个字符转化成ascii码，再转成二进制，得到24个二进制位。将24个二进制位分成4组，每组6个二进制位，再分别转化成十进制。此时得到四个十进制数，并且小于 64（因为每个十进制数是由6个二进制位表示的）。接下来参照下表，将这四个数转化成字符，输出即可。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">value</th>
+<th style="text-align:center">char</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0-25</td>
+<td style="text-align:center">A-Z</td>
+</tr>
+<tr>
+<td style="text-align:center">26-51</td>
+<td style="text-align:center">a-z</td>
+</tr>
+<tr>
+<td style="text-align:center">52-61</td>
+<td style="text-align:center">0-9</td>
+</tr>
+<tr>
+<td style="text-align:center">62</td>
+<td style="text-align:center">+</td>
+</tr>
+<tr>
+<td style="text-align:center">63</td>
+<td style="text-align:center">/</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>接下来是两个例子： </p>
+<p>输入Man，长度为3的倍数，直接调用主过程 </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文本</th>
+<th style="text-align:center">M</th>
+<th style="text-align:center">a</th>
+<th style="text-align:center">n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ASCII</td>
+<td style="text-align:center">77</td>
+<td style="text-align:center">97</td>
+<td style="text-align:center">110</td>
+</tr>
+<tr>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">01001101</td>
+<td style="text-align:center">01100001</td>
+<td style="text-align:center">01101110</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>输出为：TWFu</p>
+<p>输入A：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文本</th>
+<th style="text-align:center">A</th>
+<th style="text-align:center">\0</th>
+<th style="text-align:center">\0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ASCII</td>
+<td style="text-align:center">65</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">二进制</td>
+<td style="text-align:center">01000001</td>
+<td style="text-align:center">00000000</td>
+<td style="text-align:center">00000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>输出为：QQAA =&gt; QQ==（最后两个字符被替换）</p>
+<p>最终将转化后的字符串输出，每76个字符为一行，如果最后一行不满76个字符，也换一行。输出文件最后请输出一个空行。因为是逐字节比较，行末不能有多余空格，文末不能有多余空行（也就是说文件最后一行一定是空行，倒数第二行一定不是空行）。 </p>
+<p>你需要为红魔馆设计这个新型的编码技术，红美玲正在急着处理传输进来的信息，却不</p>
+<p>知道红魔馆内已经有了入侵者…… </p>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><p>输入文件第一行是一个正整数n，表示原始字符串的长度。 </p>
+<p>第二行是一个字符串，长度为n。字符串由大小写字母，数字，符号，空格构成。</p>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3><p> 若干行，表示转化后的字符串。每76个字符为一行，如果最后一行不满76个字符，也换一行。因为是逐字节比较，行末不能有多余空格，文末不能有多余空行（也就是说文件最后一行一定是空行，倒数第二行一定不是空行）。</p>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">BC</span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QkM=</span><br></pre></td></tr></table></figure>
+<h3 id="Hint"><a href="#Hint" class="headerlink" title="Hint"></a>Hint</h3><p>对于30%的数据,n=3,字符串只由字母组成</p>
+<p>对于50%的数据,n=12</p>
+<p>对于70%的数据,n&lt;=57</p>
+<p>对于100%的数据,3&lt;=n&lt;=1000</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>一道简单的字符串操作题，根据题意转化字符串，分行输出转化后的字符即可</p>
+<p>这道题在考试时写的程序，在自己电脑上能 AC，但是交到老师的 Linux 下面去就不行了……</p>
+<p>然而 NOIP 采用的就是标准的 Linux 环境，不知道该怎么办……</p>
+<h3 id="Codes"><a href="#Codes" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 5005</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">char</span> src[maxn];</span><br><span class="line"><span class="type">int</span> bin[maxn],res[maxn];</span><br><span class="line"><span class="type">char</span> ref[maxn];</span><br><span class="line"><span class="type">int</span> n,cnt,rest;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="string">&#x27;A&#x27;</span>;i&lt;=<span class="string">&#x27;Z&#x27;</span>;i++) ref[cnt++]=i;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="string">&#x27;a&#x27;</span>;i&lt;=<span class="string">&#x27;z&#x27;</span>;i++) ref[cnt++]=i;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="string">&#x27;0&#x27;</span>;i&lt;=<span class="string">&#x27;9&#x27;</span>;i++) ref[cnt++]=i;</span><br><span class="line">	ref[cnt++]=<span class="string">&#x27;+&#x27;</span>;ref[cnt++]=<span class="string">&#x27;/&#x27;</span>;ref[cnt]=<span class="string">&#x27;=&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;door.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;door.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);<span class="type">char</span> ch;</span><br><span class="line">	<span class="built_in">init</span>();</span><br><span class="line">	ch=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		ch=<span class="built_in">getchar</span>();</span><br><span class="line">		src[i]=ch;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(n%<span class="number">3</span>!=<span class="number">0</span>) src[++n]=<span class="string">&#x27;\0&#x27;</span>,rest++;</span><br><span class="line">	<span class="type">int</span> offset,curch,ans;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i+=<span class="number">3</span>)&#123;</span><br><span class="line">		<span class="built_in">memset</span>(bin,<span class="number">0</span>,<span class="built_in">sizeof</span>(bin));</span><br><span class="line">	 	curch=src[i];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">7</span>;j&gt;=<span class="number">0</span>;j--) bin[++bin[<span class="number">0</span>]]=(curch&gt;&gt;j)&amp;<span class="number">1</span>;</span><br><span class="line">		curch=src[i+<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">7</span>;j&gt;=<span class="number">0</span>;j--) bin[++bin[<span class="number">0</span>]]=(curch&gt;&gt;j)&amp;<span class="number">1</span>;</span><br><span class="line">		curch=src[i+<span class="number">2</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">7</span>;j&gt;=<span class="number">0</span>;j--) bin[++bin[<span class="number">0</span>]]=(curch&gt;&gt;j)&amp;<span class="number">1</span>;</span><br><span class="line">		ans=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=bin[<span class="number">0</span>];j++)&#123;</span><br><span class="line">			ans=(ans&lt;&lt;<span class="number">1</span>)|bin[j];</span><br><span class="line">			<span class="keyword">if</span>(j%<span class="number">6</span>==<span class="number">0</span>)&#123;res[++res[<span class="number">0</span>]]=ans;ans=<span class="number">0</span>;&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=rest;i;i--) res[res[<span class="number">0</span>]-i+<span class="number">1</span>]=<span class="number">64</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=res[<span class="number">0</span>];i++)&#123;</span><br><span class="line">		<span class="built_in">putchar</span>(ref[res[i]]);</span><br><span class="line">		<span class="keyword">if</span>(i%<span class="number">76</span>==<span class="number">0</span>) </span><br><span class="line">			<span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">	&#125;<span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);<span class="comment">// 这里必须多打一个 putchar，不然不能换行……</span></span><br><span class="line">	<span class="keyword">if</span>(res[<span class="number">0</span>]%<span class="number">76</span>!=<span class="number">0</span>) <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-逃跑（escape-cpp）"><a href="#2-逃跑（escape-cpp）" class="headerlink" title="2. 逃跑（escape.cpp）"></a>2. 逃跑（escape.cpp）</h2><h3 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h3><p>因为门卫红美玲的失误，疏忽将入侵者放入了红魔馆。入侵者袭击了红魔馆的大小姐蕾米莉亚·斯卡雷特，大小姐在施放【必杀·斯卡雷特家绝技·抱头蹲防】无效后只好变成了好多蝙蝠，在红魔馆中分散开来。 </p>
+<p>现在的当务之急是找到二小姐芙兰朵露·斯卡雷特，并且与大小姐化身成的所有蝙蝠集合在一点。你的任务就是帮她们找一条最佳路线。 </p>
+<p>我们可以用一个无向图来表示红魔馆的地图。蝙蝠和二小姐走过任何一条边都要付出一定的代价。因为形态不同，蝙蝠和二小姐走同一条边付出的代价可能不同。但是如果某一只蝙蝠与二小姐碰面，那么二小姐由于蝙蝠的引导，以后的所有路程可以不支付代价。（也就是相当于二小姐和某只蝙蝠都走到某点，之后无视二小姐的存在。）现在已知所有蝙蝠，二小姐和目标集合点的位置，请你求出所有蝙蝠和二小姐行走代价的和的最小值。</p>
+<h3 id="Input-1"><a href="#Input-1" class="headerlink" title="Input"></a>Input</h3><p>第一行是5个正整数，n，m，k，S，T，分别代表无向图点数，边数，蝙蝠的数量，二小姐所在起点的编号，目标点的编号。 </p>
+<p>第二行是k个正整数，分别代表大小姐每个蝙蝠所在的起点的编号。 </p>
+<p>接下来有m行，每行有4个正整数，u，v，q，p，分别是该边的起点、终点，蝙蝠通过该路花费的代价，二小姐通过该路花费的代价。</p>
+<h3 id="Output-1"><a href="#Output-1" class="headerlink" title="Output"></a>Output</h3><p>第一行是5个正整数，n，m，k，S，T，分别代表无向图点数，边数，蝙蝠的数量，二小姐所在起点的编号，目标点的编号。 </p>
+<p>第二行是k个正整数，分别代表大小姐每个蝙蝠所在的起点的编号。 </p>
+<p>接下来有m行，每行有4个正整数，u，v，q，p，分别是该边的起点、终点，蝙蝠通过该路花费的代价，二小姐通过该路花费的代价。</p>
+<h3 id="Sample-Input-1"><a href="#Sample-Input-1" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">5 5 2 3 4 </span><br><span class="line">1 5 </span><br><span class="line">1 2 3 5 </span><br><span class="line">3 2 3 5 </span><br><span class="line">2 4 4 9 </span><br><span class="line">3 4 9 6 </span><br><span class="line">5 4 1 1 </span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output-1"><a href="#Sample-Output-1" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">14</span><br></pre></td></tr></table></figure>
+<h3 id="Hint-1"><a href="#Hint-1" class="headerlink" title="Hint"></a>Hint</h3><p>【样例解释】</p>
+<p>1号蝙蝠从1到2，花费3  二小姐从3到2，花费5，遇见蝙蝠，之后不计算费用 </p>
+<p> 1号蝙蝠从2到4，花费4  2号蝙蝠从5到4，花费1  总计13</p>
+<p>【数据规模】</p>
+<p>其中30%：n&lt;=200。 </p>
+<p>另有20%: 保证S=T。 </p>
+<p>另有20%：保证k&lt;=5，n&lt;=1000,m&lt;=10000。 </p>
+<p>100%：n&lt;=10000，m&lt;=100000，k&lt;=10000，1&lt;=S、T、u、v&lt;=n，1&lt;=p、q&lt;=1000，不保证蝙蝠起点互不相等，数据中可能有重边和自环，保证所有点均能走到T点（即不存在无解情况）。</p>
+<h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<p><strong>局部分做法：SPFA + DFS（60分）</strong></p>
+</blockquote>
+<p>考试时写的解法，先预处理出终点到所有点的单源最短路径，然后统计所有蝙蝠到终点的最短路径距离和，如果题目给出的 S=T，则直接输出作为答案（这里有 20pts）</p>
+<p><strong>然后就是 DFS 标记每只蝙蝠通过最短路径到达终点时要经历的点，再做一次 SPFA，以二小姐的点为源点，计算每个被标记的点到新的源点的最短路径，再在其中取最小值</strong>，加上上一步算出的和即为答案，最终得分 60pts</p>
+<blockquote>
+<p><strong>正解：SPFA + 路径转化（100分）</strong></p>
+</blockquote>
+<p>很显然蝙蝠不一定要在最短路径上经过的点来接二小姐，因为二小姐到达这些点的花费通常比蝙蝠要高得多</p>
+<p>枚举每个蝙蝠去接二小姐的点 $D$，设去接二小姐的蝙蝠为 $K_i$，那么这只蝙蝠需要的额外花费就为：</p>
+<p>$dist[K_i][D]+dist[S][D]+dist[D][T]-dist[K_i][T]=delta$，也就是 $ans+=delta$</p>
+<p>这样做的话，朴素做法需要预处理出每只蝙蝠，二小姐，终点到每个点的单源最短路径（如果会求多源最短路径的话到这一步就可以 AC 此题了），时间和空间都不能接受，考虑每个点的 $delta$ 值：</p>
+<p>$delta(D)=min_{i=1}^n(dist[K_i,D]+dist[D][T]+dist[S][D]-dist[K_i][T])$</p>
+<p>$ans=min<em>{i=1}^ndelta(i)+\sum</em>{i=1}^ndist[i][T]$ </p>
+<p>其中 $delta(D)$ 的表达式中可以提出常值表达式（即不会被当前计算所改变的表达式）：<br>$delta(D)=min_{i=1}^n(dist[K_i][D]-dist[K_i][T])-dist[S][K]+dist[D][T]$ </p>
+<p>变化的表达式值记作：$f(D)=delta(D)=min_{i=1}^n(dist[K_i][D]-dist[K_i][T])$</p>
+<p><strong>考虑新设源点 $S’$ ，把 $S’$ 与所有蝙蝠在的点 $Ki$ 连接一条权值为 $-dist[K_i][t]$ 的边，然后计算以这个点为源点的单源最短路径，发现表达式和 $f(D)$ 一致，那么我们就可以一次最短路求出 $f$ 数组，然后又枚举得出答案了</strong></p>
+<p>本题考查对最短路径表达式的理解，难点在于最后一步的新源点设置和转化，通过已知的目标表达式构造出能用最短路径求出的表达式从而解决问题</p>
+<h3 id="Codes-1"><a href="#Codes-1" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 10005</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxm 100005*8</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; pr;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> t&gt;<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">fcin</span><span class="params">(t &amp;x)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> sign=<span class="number">1</span>; x=<span class="number">0</span>; <span class="type">char</span> op=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(op&lt;<span class="string">&#x27;0&#x27;</span>||op&gt;<span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(op==<span class="string">&#x27;-&#x27;</span>) sign=<span class="number">-1</span>;op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	<span class="keyword">while</span>(op&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;op&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;x=x*<span class="number">10</span>+(op<span class="number">-48</span>);op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	x*=sign;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> to[maxm],nxt[maxm],head[maxn];</span><br><span class="line"><span class="type">int</span> wsis[maxm],wbf[maxm],tot;</span><br><span class="line"><span class="type">int</span> n,m,S,T,k;<span class="type">int</span> pos[maxn];</span><br><span class="line"><span class="type">int</span> bf[maxn];</span><br><span class="line"><span class="type">int</span> dist[<span class="number">3</span>][maxn];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Eadd</span><span class="params">(<span class="type">int</span> u,<span class="type">int</span> v,<span class="type">int</span> W1,<span class="type">int</span> W2)</span></span>&#123;</span><br><span class="line">	to[++tot]=v;nxt[tot]=head[u];</span><br><span class="line">	wbf[tot]=W1;wsis[tot]=W2;head[u]=tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">cmp</span>&#123;<span class="function"><span class="type">bool</span> <span class="title">operator</span> <span class="params">()</span><span class="params">(<span class="type">const</span> pr a,<span class="type">const</span> pr b)</span></span>&#123;<span class="keyword">return</span> a.second&gt;b.second;&#125;&#125;;</span><br><span class="line">priority_queue&lt;pr,vector&lt;pr&gt;,cmp&gt; q;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SPFA</span><span class="params">(<span class="type">int</span> id,<span class="type">int</span> src=<span class="number">-1</span>)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(src!=<span class="number">-1</span>) <span class="keyword">while</span>(!q.<span class="built_in">empty</span>()) q.<span class="built_in">pop</span>();</span><br><span class="line">	<span class="keyword">if</span>(src!=<span class="number">-1</span>) <span class="built_in">memset</span>(dist[id],<span class="number">0x3f</span>,<span class="built_in">sizeof</span>(dist[id]));</span><br><span class="line">	<span class="type">int</span> hx,hy,val;</span><br><span class="line">	<span class="keyword">if</span>(src!=<span class="number">-1</span>)&#123;</span><br><span class="line">		dist[id][src]=<span class="number">0</span>;</span><br><span class="line">		q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(src,<span class="number">0</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">		hx=q.<span class="built_in">top</span>().first;</span><br><span class="line">		hy=q.<span class="built_in">top</span>().second;</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(dist[id][hx]!=hy) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=head[hx];i;i=nxt[i])&#123;</span><br><span class="line">			val=(id==<span class="number">0</span> || id==<span class="number">2</span>)?wbf[i]:wsis[i];</span><br><span class="line">			<span class="keyword">if</span>(dist[id][to[i]]&gt;dist[id][hx]+val)&#123;</span><br><span class="line">				dist[id][to[i]]=dist[id][hx]+val;</span><br><span class="line">				q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(to[i],dist[id][to[i]]));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;escape.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;escape.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="built_in">fcin</span>(n);<span class="built_in">fcin</span>(m);<span class="type">int</span> a,b,c,d;</span><br><span class="line">	<span class="built_in">fcin</span>(k);<span class="built_in">fcin</span>(S);<span class="built_in">fcin</span>(T);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=k;i++) <span class="built_in">fcin</span>(a),bf[a]++;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="built_in">fcin</span>(a);<span class="built_in">fcin</span>(b);</span><br><span class="line">		<span class="built_in">fcin</span>(c);<span class="built_in">fcin</span>(d);</span><br><span class="line">		<span class="built_in">Eadd</span>(a,b,c,d);<span class="built_in">Eadd</span>(b,a,c,d);</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="built_in">SPFA</span>(<span class="number">0</span>,T);<span class="built_in">SPFA</span>(<span class="number">1</span>,S); </span><br><span class="line">	ll ans=<span class="number">0</span>;<span class="keyword">while</span>(!q.<span class="built_in">empty</span>()) q.<span class="built_in">pop</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(bf[i])&#123;</span><br><span class="line">			dist[<span class="number">2</span>][i]=-dist[<span class="number">0</span>][i];</span><br><span class="line">			ans+=dist[<span class="number">0</span>][i]*bf[i];</span><br><span class="line">			q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(i,dist[<span class="number">2</span>][i]));</span><br><span class="line">		&#125;<span class="keyword">else</span> dist[<span class="number">2</span>][i]=<span class="number">1</span>&lt;&lt;<span class="number">28</span>; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">SPFA</span>(<span class="number">2</span>);</span><br><span class="line">	ll ret=<span class="number">1ll</span>&lt;&lt;<span class="number">55</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) ret=<span class="built_in">min</span>(ret,ans+dist[<span class="number">2</span>][i]+dist[<span class="number">0</span>][i]+dist[<span class="number">1</span>][i]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>,ret);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-擦蛋（graze-cpp）"><a href="#3-擦蛋（graze-cpp）" class="headerlink" title="3. 擦蛋（graze.cpp）"></a>3. 擦蛋（graze.cpp）</h2><h3 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h3><p>大小姐和二小姐汇合以后，大小姐从蝙蝠变回人形。这个时候入侵者发现了她们，二小姐看见了新的玩具，十分兴奋，使用了禁忌【四重存在】。此时密集的弹幕飞了过来，二小姐与她的分身该怎样躲过这一阵袭击呢？ </p>
+<p>四重存在 == 分身有4个</p>
+<p>我们假设对战场地是一条长度为n格的路，开始时二小姐与所有分身都在路的最左端第一格，而目标在路的最右端，也就是第n格。二小姐需要将分身都移动到路的最右一格，然后给予敌人致命一击。因为分身难以操纵，所以二小姐每单位时间只能操作1个分身向右移动一格。显然，二小姐需要4n-4的时间使得所有分身处于道路最右端。 </p>
+<p>我们已知从开始4n-4时间内每时刻，道路的某一格内的弹幕数。对于每个分身分别计算，如果在第t时刻,该分身位于第i格，那么则会：1.受到该时刻第i格内弹幕数量的伤害，称为miss数（指走位失误的数量）。2.如果该分身上一时刻在第i-1格，得到该时刻i-1格内弹幕数量的分数，称为graze数（指擦弹数）。（如果该分身此回合没有移动，不计算擦弹数。） </p>
+<p>总miss就是这4n-4时间段内所有分身所有miss之和，总graze数是这4n-4时间段内所有分数的graze数之和。现在想知道miss数最小的情况下，graze数最大为多少。输出这个miss数和graze数。</p>
+<h3 id="Input-2"><a href="#Input-2" class="headerlink" title="Input"></a>Input</h3><p>第一行是1个正整数n，代表道路长度。 </p>
+<p>接下来有4n-4行，每行n个整数，第i行第j个数代表在i时刻（开始为0时刻）在第j格内受到的伤害。</p>
+<h3 id="Output-2"><a href="#Output-2" class="headerlink" title="Output"></a>Output</h3><p>两个整数，用空格隔开，分别代表最小的miss数，和在miss数最小的情况下最大的graze 数。 </p>
+<h3 id="Sample-Input-2"><a href="#Sample-Input-2" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">1 2</span><br><span class="line">2 2</span><br><span class="line">3 2</span><br><span class="line">4 2</span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output-2"><a href="#Sample-Output-2" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30 10</span><br></pre></td></tr></table></figure>
+<h3 id="Hint-2"><a href="#Hint-2" class="headerlink" title="Hint"></a>Hint</h3><p>【样例解释 】</p>
+<p> 只有一种走法。 </p>
+<p> 第一回合：第一格3分身，第二格1分身，miss5，graze1。 </p>
+<p> 第二回合：第一格2分身，第二格2分身，miss8，graze2。第三回合：第一格1分身，第二格3分身，miss9，graze3。 </p>
+<p>第四回合：第一格0分身，第二格4分身，miss8，graze4。 </p>
+<p>【数据约定 】</p>
+<p> 其中30%数据:n&lt;=3      其中50%数据:n&lt;=10 其中70%数据:n&lt;=30 </p>
+<p>100%数据:n&lt;=100,每时刻每格中弹幕数均为正数且小于1000 </p>
+<h3 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<p><strong>30分做法：搜索</strong></p>
+</blockquote>
+<p>朴素的搜索算法，考试时还想着剪枝优化，结果发现剪了枝和没剪没什么区别……</p>
+<blockquote>
+<p><strong>100分做法：DP+各种优化</strong></p>
+</blockquote>
+<p><strong>1级 DP</strong></p>
+<p>设 $f[t][i][j][k][l]=(miss,\;graze)$ 表示在 $t$ 时刻，四个分身位于 $i,\;j,\;k,\;l$ 四个位置时的最小 $miss$ 值以及最大 $graze$ 值，按照题意 $miss$ 值小的优先，这点可以在重载运算符时实现，然后转移方程也比较好想：</p>
+<p>设 $cost[i]$ 为 $i$ 位置在当前时刻 $t$ 的弹幕数量，则：</p>
+<p>$f[t][i][j][k][l]=min\begin{cases} f[t-1][i-1][j][k][l]+(cost[i+j+k+l],\;cost[i-1])\\f[t-1][i][j-1][k][l]+(cost[i+j+k+l],\;cost[j-1])\\f[t-1][i][j][k-1][l]+(cost[i+j+k+l],\;cost[k-1])\\f[t-1][i][j][k][l-1]+(cost[i+j+k+l],\;cost[l-1]) \end{cases}$</p>
+<p>这一个转移方程的控件和时间复杂度都达到了 $O((4n-4)\times n^4)$，可以过 50% 的数据</p>
+<p><strong>2级 DP</strong></p>
+<p>由于每时刻只能操作一个分身向前移动一格，所以 $t$ 也就是所有分身的位置总和（设 0 为起点，n-1 为终点），那么只需要枚举前三个 $i,\;j,\;k$ 就能确定剩下的 $l$ ，复杂度为  $O((4n-4)\times n^3)$ ，可以过掉 70 pts</p>
+<p><strong>3级DP</strong></p>
+<p><strong>首先，$f[t]$ 的状态只和 $f[t-1]$ 有关，所以可以用滚动数组优化，降低空间复杂度</strong></p>
+<p><strong>其次，考虑互换每个分身的位置，我们发现由于分身是一样的，所以将任一时刻的分身随意互换位置对计算的答案毫无影响，</strong>于是可以规定 $i&gt;j&gt;k&gt;l$ ，从而减少枚举的状态，过 100pts 的数据点</p>
+<h3 id="Codes-2"><a href="#Codes-2" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 125</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> t&gt;<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">fcin</span><span class="params">(t &amp;x)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> sign=<span class="number">1</span>; x=<span class="number">0</span>; <span class="type">char</span> op=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(op&lt;<span class="string">&#x27;0&#x27;</span>||op&gt;<span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(op==<span class="string">&#x27;-&#x27;</span>) sign=<span class="number">-1</span>;op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	<span class="keyword">while</span>(op&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;op&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;x=x*<span class="number">10</span>+(op<span class="number">-48</span>);op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	x*=sign;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">	<span class="type">int</span> miss,graze;</span><br><span class="line">	<span class="type">bool</span> <span class="keyword">operator</span> &lt;(<span class="type">const</span> node &amp;x)<span class="type">const</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(miss!=x.miss) <span class="keyword">return</span> miss&lt;x.miss;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> graze&gt;x.graze;</span><br><span class="line">	&#125;</span><br><span class="line">	node <span class="keyword">operator</span> +(<span class="type">const</span> node &amp;x)&#123;</span><br><span class="line">		<span class="keyword">return</span> (node)&#123;miss+x.miss,graze+x.graze&#125;; </span><br><span class="line">	&#125;</span><br><span class="line">	node&amp; <span class="keyword">operator</span> +=(<span class="type">const</span> node &amp;x)&#123;</span><br><span class="line">		miss+=x.miss;graze+=x.graze;</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;f[<span class="number">2</span>][maxn][maxn][maxn];</span><br><span class="line"><span class="type">int</span> n,cost[maxn];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">calc</span><span class="params">(node &amp;x,node y[maxn][maxn][maxn],<span class="type">int</span> p1,<span class="type">int</span> p2,<span class="type">int</span> p3,<span class="type">int</span> p4,<span class="type">int</span> delta)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(p1&lt;p2) <span class="built_in">swap</span>(p1,p2);</span><br><span class="line">	<span class="keyword">if</span>(p2&lt;p3) <span class="built_in">swap</span>(p2,p3);</span><br><span class="line">	<span class="keyword">if</span>(p3&lt;p4) <span class="built_in">swap</span>(p3,p4);</span><br><span class="line">	node cur=y[p1][p2][p3];</span><br><span class="line">	cur.graze+=delta;</span><br><span class="line">	<span class="keyword">if</span>(cur.miss&lt;x.miss || (cur.miss==x.miss &amp;&amp; cur.graze&gt;x.graze)) x=cur;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;graze.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;graze.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="built_in">fcin</span>(n);</span><br><span class="line">	<span class="type">int</span> curStat=<span class="number">1</span>;</span><br><span class="line">	<span class="built_in">memset</span>(f[curStat],<span class="number">0x3f</span>,<span class="built_in">sizeof</span>(f[curStat]));</span><br><span class="line">	f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]=(node)&#123;<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">4</span>*(n<span class="number">-1</span>);i++)&#123;</span><br><span class="line">		curStat=!curStat;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> p=<span class="number">0</span>;p&lt;n;p++) <span class="built_in">fcin</span>(cost[p]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> x=<span class="built_in">min</span>(n<span class="number">-1</span>,i);x&gt;=<span class="number">0</span>;x--)</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> y=<span class="built_in">min</span>(x,i-x);<span class="number">3</span>*y+x&gt;=i&amp;&amp;y&gt;=<span class="number">0</span>;y--)</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> z=<span class="built_in">min</span>(y,i-x-y);<span class="number">2</span>*z+y+x&gt;=i&amp;&amp;z&gt;=<span class="number">0</span>;z--)&#123;</span><br><span class="line">			<span class="type">int</span> w=i-x-y-z;</span><br><span class="line">			f[curStat][x][y][z]=(node)&#123;<span class="number">1</span>&lt;&lt;<span class="number">28</span>,<span class="number">1</span>&lt;&lt;<span class="number">28</span>&#125;;</span><br><span class="line">			<span class="keyword">if</span>(x) <span class="built_in">calc</span>(f[curStat][x][y][z],f[<span class="number">1</span>-curStat],x<span class="number">-1</span>,y,z,w,cost[x<span class="number">-1</span>]);</span><br><span class="line">			<span class="keyword">if</span>(y) <span class="built_in">calc</span>(f[curStat][x][y][z],f[<span class="number">1</span>-curStat],x,y<span class="number">-1</span>,z,w,cost[y<span class="number">-1</span>]);</span><br><span class="line">			<span class="keyword">if</span>(z) <span class="built_in">calc</span>(f[curStat][x][y][z],f[<span class="number">1</span>-curStat],x,y,z<span class="number">-1</span>,w,cost[z<span class="number">-1</span>]);</span><br><span class="line">			<span class="keyword">if</span>(w) <span class="built_in">calc</span>(f[curStat][x][y][z],f[<span class="number">1</span>-curStat],x,y,z,w<span class="number">-1</span>,cost[w<span class="number">-1</span>]);</span><br><span class="line">			f[curStat][x][y][z].miss+=cost[x]+cost[y]+cost[z]+cost[w];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	node ans=f[curStat][n<span class="number">-1</span>][n<span class="number">-1</span>][n<span class="number">-1</span>];</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d %d&quot;</span>,ans.miss,ans.graze);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yan2u</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2019/10/22/2019-10-22-exam/">http://example.com/2019/10/22/2019-10-22-exam/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Yan2u's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a><a class="post-meta__tags" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a><a class="post-meta__tags" href="/tags/SPFA/">SPFA</a></div><div class="post_share"><div class="social-share" data-image="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/24/2019-10-24-exam/"><img class="prev-cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数论 | 同余 | 字符串 | 动态规划  \ | 树链剖分 | 201901024考试：解题报告</div></div></a></div><div class="next-post pull-right"><a href="/2019/09/13/2019-09-13-OLGetLRC/"><img class="next-cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">VB.NET | 在线获取歌词方法的小小  总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/10/24/2019-10-24-exam/" title="数论 | 同余 | 字符串 | 动态规划  \ | 树链剖分 | 201901024考试：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-24</div><div class="title">数论 | 同余 | 字符串 | 动态规划  \ | 树链剖分 | 201901024考试：解题报告</div></div></a></div><div><a href="/2019/10/25/2019-10-25-exam/" title="动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告</div></div></a></div><div><a href="/2019/10/31/2019-10-31-exam/" title="动态规划 | 线段树 | 0&#x2F;1分数规划  \ | 图论  | 201901031考试：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-31</div><div class="title">动态规划 | 线段树 | 0&#x2F;1分数规划  \ | 图论  | 201901031考试：解题报告</div></div></a></div><div><a href="/2019/03/04/2019-03-04-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%95%B0%E4%BD%8D-scoi2009-windy%E6%95%B0/" title="动态规划 | 数论 | Scoi2009 Windy数"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-03-04</div><div class="title">动态规划 | 数论 | Scoi2009 Windy数</div></div></a></div><div><a href="/2019/03/09/2019-03-09-RoundNumbers/" title="动态规划 | 数位 | Round Numbers"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-03-09</div><div class="title">动态规划 | 数位 | Round Numbers</div></div></a></div><div><a href="/2019/04/08/2019-04-08-%E6%89%80%E9%A9%BC%E9%97%A8%E7%8E%8B%E7%9A%84%E5%AE%9D%E8%97%8F/" title="图论 | 强连通分量 | Tarjan | [SDOI2010]所驼  门王的宝藏"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-08</div><div class="title">图论 | 强连通分量 | Tarjan | [SDOI2010]所驼  门王的宝藏</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s1.ax1x.com/2022/06/20/XjjdfK.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yan2u</div><div class="author-info__description">A LOOOSER</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yan2u"><i class="fab fa-github"></i><span>Yan2u - Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yan2u" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1955997092@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E9%99%90%E5%88%B6%E4%B8%80%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">题目限制一览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%A8%E5%8D%AB%EF%BC%88door-cpp%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 门卫（door.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input"><span class="toc-number">2.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output"><span class="toc-number">2.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">2.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">2.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint"><span class="toc-number">2.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">2.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes"><span class="toc-number">2.8.</span> <span class="toc-text">Codes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%80%83%E8%B7%91%EF%BC%88escape-cpp%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">2. 逃跑（escape.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-1"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-1"><span class="toc-number">3.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-1"><span class="toc-number">3.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">3.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">3.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint-1"><span class="toc-number">3.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-1"><span class="toc-number">3.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes-1"><span class="toc-number">3.8.</span> <span class="toc-text">Codes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%93%A6%E8%9B%8B%EF%BC%88graze-cpp%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">3. 擦蛋（graze.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-2"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-2"><span class="toc-number">4.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-2"><span class="toc-number">4.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-2"><span class="toc-number">4.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-2"><span class="toc-number">4.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint-2"><span class="toc-number">4.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-2"><span class="toc-number">4.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes-2"><span class="toc-number">4.8.</span> <span class="toc-text">Codes</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/03/19/2020-03-19-Deepin/" title="Deepin 初体验">Deepin 初体验</a><time datetime="2020-03-18T16:00:00.000Z" title="发表于 2020-03-19 00:00:00">2020-03-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/03/17/2020-03-17-Neumorphic/" title="Neumorphism UI： 新拟态设计">Neumorphism UI： 新拟态设计</a><time datetime="2020-03-16T16:00:00.000Z" title="发表于 2020-03-17 00:00:00">2020-03-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/02/02/2020-02-02-LRCEditor01/" title="LrcEditor开发记（一）api接口">LrcEditor开发记（一）api接口</a><time datetime="2020-02-01T16:00:00.000Z" title="发表于 2020-02-02 00:00:00">2020-02-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/31/2019-10-31-exam/" title="动态规划 | 线段树 | 0/1分数规划  \ | 图论  | 201901031考试：解题报告">动态规划 | 线段树 | 0/1分数规划  \ | 图论  | 201901031考试：解题报告</a><time datetime="2019-10-30T16:00:00.000Z" title="发表于 2019-10-31 00:00:00">2019-10-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/25/2019-10-25-exam/" title="动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告">动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告</a><time datetime="2019-10-24T16:00:00.000Z" title="发表于 2019-10-25 00:00:00">2019-10-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Yan2u</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/hexo-github-calendar@1.16/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://python-github-calendar-api.vercel.app/api?yan2u";
+            var git_color =['#ebedf0', '#f0fff4', '#dcffe4', '#bef5cb', '#85e89d', '#34d058', '#28a745', '#22863a', '#176f2c', '#165c26', '#144620'];
+            var git_user ="yan2u";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style>undefined</style><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>模拟 | SPFA | 递推 | 并查集 | 20190713考试  ：解题报告 | Yan2u's Blog</title><meta name="keywords" content="SPFA,并查集,模拟,递推"><meta name="author" content="Yan2u"><meta name="copyright" content="Yan2u"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="题目限制一览    题目 时间限制 空间限制     1. buckets $1000$ MS $256$ MB   2. factory $1000$ MS $256$ MB   3. dining $1000$ MS $512$ MB     1. 救火（buckets.cpp）Description农场上起火了，奶牛们正在紧急赶去灭火！ 农场可以用一个像这样的10×10的字符方阵来描述：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模拟 | SPFA | 递推 | 并查集 | 20190713考试  ：解题报告">
+<meta property="og:url" content="http://example.com/2019/07/13/2019-07-13-0713%E8%80%83%E8%AF%95/">
+<meta property="og:site_name" content="Yan2u&#39;s Blog">
+<meta property="og:description" content="题目限制一览    题目 时间限制 空间限制     1. buckets $1000$ MS $256$ MB   2. factory $1000$ MS $256$ MB   3. dining $1000$ MS $512$ MB     1. 救火（buckets.cpp）Description农场上起火了，奶牛们正在紧急赶去灭火！ 农场可以用一个像这样的10×10的字符方阵来描述：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg">
+<meta property="article:published_time" content="2019-07-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-11T05:42:23.362Z">
+<meta property="article:author" content="Yan2u">
+<meta property="article:tag" content="SPFA">
+<meta property="article:tag" content="并查集">
+<meta property="article:tag" content="模拟">
+<meta property="article:tag" content="递推">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2019/07/13/2019-07-13-0713%E8%80%83%E8%AF%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '模拟 | SPFA | 递推 | 并查集 | 20190713考试  ：解题报告',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-11 13:42:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s1.ax1x.com/2022/06/20/XjjdfK.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Yan2u's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">模拟 | SPFA | 递推 | 并查集 | 20190713考试  ：解题报告</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-07-12T16:00:00.000Z" title="发表于 2019-07-13 00:00:00">2019-07-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-11T05:42:23.362Z" title="更新于 2022-08-11 13:42:23">2022-08-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/OI/">OI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="模拟 | SPFA | 递推 | 并查集 | 20190713考试  ：解题报告"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><span id="more"></span>
+<h2 id="题目限制一览"><a href="#题目限制一览" class="headerlink" title="题目限制一览"></a>题目限制一览</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题目</th>
+<th style="text-align:center">时间限制</th>
+<th style="text-align:center">空间限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1. buckets</td>
+<td style="text-align:center">$1000$ MS</td>
+<td style="text-align:center">$256$ MB</td>
+</tr>
+<tr>
+<td style="text-align:center">2. factory</td>
+<td style="text-align:center">$1000$ MS</td>
+<td style="text-align:center">$256$ MB</td>
+</tr>
+<tr>
+<td style="text-align:center">3. dining</td>
+<td style="text-align:center">$1000$ MS</td>
+<td style="text-align:center">$512$ MB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="1-救火（buckets-cpp）"><a href="#1-救火（buckets-cpp）" class="headerlink" title="1. 救火（buckets.cpp）"></a>1. 救火（buckets.cpp）</h2><h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>农场上起火了，奶牛们正在紧急赶去灭火！</p>
+<p>农场可以用一个像这样的10×10的字符方阵来描述：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..B.......</span><br><span class="line">..........</span><br><span class="line">.....R....</span><br><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">.....L....</span><br><span class="line">..........</span><br></pre></td></tr></table></figure>
+<p>字符’B’表示正着火的牛棚。字符’L’表示一个湖，而字符’R’表示农场上的一块巨大岩石。</p>
+<p>奶牛们想要沿着一条湖到牛棚之间的路径组成一条“水桶传递队列”，这样她们就可以沿着这条路径传递水桶来帮助灭火。当两头奶牛在东南西北四个方向上相邻时水桶可以在她们之间传递。这对于湖边的奶牛也是对的——奶牛只能在紧挨着湖的时候才能用水桶从湖里取水。类似地，奶牛只能在紧挨着牛棚的时候才能用水去灭牛棚的火。</p>
+<p>请帮助求出奶牛们为了组成这样的“水桶传递队列”需要占据的’.’格子的最小数量。</p>
+<p>奶牛不能站在岩石所在的方格之内，此外保证牛棚和湖不是相邻的。</p>
+<h3 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h3><p>输入包含10行，每行10个字符，描述这个农场的布局。输入保证图案中恰有一个字符’B’、一个字符’L’以及一个字符’R’。</p>
+<h3 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h3><p>输出一个整数，为组成一条可行的水桶传递队列所需要的奶牛的最小数量。</p>
+<h3 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..B.......</span><br><span class="line">..........</span><br><span class="line">.....R....</span><br><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">.....L....</span><br><span class="line">..........</span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7</span><br></pre></td></tr></table></figure>
+<h3 id="Hint"><a href="#Hint" class="headerlink" title="Hint"></a>Hint</h3><p>在这个例子中，以下是一个可行的方案，使用了最小数量的奶牛（7）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..........</span><br><span class="line">..B.......</span><br><span class="line">..C.......</span><br><span class="line">..CC.R....</span><br><span class="line">...CCC....</span><br><span class="line">.....C....</span><br><span class="line">.....L....</span><br><span class="line">..........</span><br></pre></td></tr></table></figure>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<p><strong>做法一：BFS（100分）</strong></p>
+</blockquote>
+<p>用 <strong>洪水填充法</strong> 填表，设 $f[i][j]=min(f[i][j],f[i’][j’]+1)$ ，$i’$ 和 $j’$ 来自于上下左右的格子</p>
+<p>边界为 $f[sx][sy]=0$ 表示为 $L$ 的格子坐标</p>
+<blockquote>
+<p><strong>做法二：计算（100分）</strong></p>
+</blockquote>
+<p>发现数据中只有一块岩石 $R$，那么显然从 $L$ 格子走一个 L 形路线到 B 格子就行了，因为 L 形路线有两条，不可能全被 $R$ 阻挡所以一定可以走通</p>
+<h3 id="Codes"><a href="#Codes" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 13</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;,<span class="type">int</span>&gt; pp;</span><br><span class="line"><span class="type">char</span> M[maxn][maxn];<span class="type">bool</span> vis[maxn][maxn];</span><br><span class="line"><span class="type">int</span> offX[]=&#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-1</span>&#125;,offY[]=&#123;<span class="number">1</span>,<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">int</span> f[maxn][maxn];<span class="type">int</span> sx,sy,ex,ey;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">10</span>;i++)</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">10</span>;j++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(M[i][j]==<span class="string">&#x27;L&#x27;</span>)&#123;sx=i;sy=j;<span class="keyword">continue</span>;&#125;</span><br><span class="line">		<span class="keyword">if</span>(M[i][j]==<span class="string">&#x27;B&#x27;</span>)&#123;ex=i;ey=j;<span class="keyword">continue</span>;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(f,<span class="number">127</span>,<span class="built_in">sizeof</span>(f));</span><br><span class="line">	queue&lt;pp&gt; q; pp head; <span class="type">int</span> newx,newy;</span><br><span class="line">	q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="built_in">make_pair</span>(sx,sy),<span class="number">0</span>));</span><br><span class="line">	f[sx][sy]=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">		<span class="meta">#<span class="keyword">define</span> x head.first.first</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span> y head.first.second</span></span><br><span class="line">		<span class="meta">#<span class="keyword">define</span> z head.second</span></span><br><span class="line">		head=q.<span class="built_in">front</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(vis[x][y]) <span class="keyword">continue</span>;</span><br><span class="line">		vis[x][y]=<span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">			newx=x+offX[i];newy=y+offY[i];</span><br><span class="line">			<span class="keyword">if</span>(newx&lt;<span class="number">1</span> || newx&gt;<span class="number">10</span> || newy&lt;<span class="number">1</span> || newy&gt;<span class="number">10</span>) <span class="keyword">continue</span>;</span><br><span class="line">			<span class="keyword">if</span>(M[newx][newy]==<span class="string">&#x27;R&#x27;</span>) <span class="keyword">continue</span>;</span><br><span class="line">			f[newx][newy]=<span class="built_in">min</span>(f[newx][newy],f[x][y]+<span class="number">1</span>);</span><br><span class="line">			q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="built_in">make_pair</span>(newx,newy),z+<span class="number">1</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;buckets.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;buckets.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">10</span>;i++) <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,&amp;M[i][<span class="number">1</span>]);</span><br><span class="line">	<span class="built_in">solve</span>();</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,f[ex][ey]<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-奶牛工厂（factory-cpp）"><a href="#2-奶牛工厂（factory-cpp）" class="headerlink" title="2.奶牛工厂（factory.cpp）"></a>2.奶牛工厂（factory.cpp）</h2><h3 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h3><p>牛奶生意正红红火火！Farmer John的牛奶加工厂内有N个加工站，编号为1…N（1≤N≤100），以及N−1条通道，每条连接某两个加工站。（通道建设很昂贵，所以Farmer John选择使用了最小数量的通道，使得从每个加工站出发都可以到达所有其他加工站）。</p>
+<p>为了创新和提升效率，Farmer John在每条通道上安装了传送带。不幸的是，当他意识到传送带是单向的已经太晚了，现在每条通道只能沿着一个方向通行了！所以现在的情况不再是从每个加工站出发都能够到达其他加工站了。</p>
+<p>然而，Farmer John认为事情可能还不算完全失败，只要至少还存在一个加工站i满足从其他每个加工站出发都可以到达加工站i。注意从其他任意一个加工站j前往加工站i可能会经过i和j之间的一些中间站点。请帮助Farmer John求出是否存在这样的加工站i。</p>
+<h3 id="Input-1"><a href="#Input-1" class="headerlink" title="Input"></a>Input</h3><p>输入的第一行包含一个整数N，为加工站的数量。以下N−1行每行包含两个空格分隔的整数ai和bi，满足1≤ai,bi≤N以及ai≠bi。这表示有一条从加工站ai向加工站bi移动的传送带，仅允许沿从ai到bi的方向移动。</p>
+<h3 id="Output-1"><a href="#Output-1" class="headerlink" title="Output"></a>Output</h3><p>如果存在加工站i满足可以从任意其他加工站出发都可以到达加工站i，输出最小的满足条件的i。否则，输出−1。</p>
+<h3 id="Sample-Input-1"><a href="#Sample-Input-1" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">1 2</span><br><span class="line">3 2</span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output-1"><a href="#Sample-Output-1" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+<h3 id="Hint-1"><a href="#Hint-1" class="headerlink" title="Hint"></a>Hint</h3><p>无</p>
+<h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<p><strong>做法一：暴力 + DFS（100分）</strong></p>
+</blockquote>
+<p>看到 $N\leq100$ 我们就知道这个题有多水了，存了反图之后直接对每个点暴力地 DFS 一遍看能不能遍历到所有点，把最先满足条件的输出就行</p>
+<blockquote>
+<p><strong>做法二：暴力 + 并查集（100分）</strong></p>
+</blockquote>
+<p>稍微优雅一点的暴力，维护每个点的并查集 $f(i)$ ，每次连边 $u\to v$ 就把 $f(u)$ 搬进 $f(v)$ 里面即可，最后判断有没有点的 $siz(f(i))=n$ ，由于数据太水，甚至不需要启发式合并</p>
+<h3 id="Codes-1"><a href="#Codes-1" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 101</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxm maxn*2</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> t&gt;<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">fcin</span><span class="params">(t &amp;x)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> sign=<span class="number">1</span>; x=<span class="number">0</span>; <span class="type">char</span> op=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(op&lt;<span class="string">&#x27;0&#x27;</span>||op&gt;<span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(op==<span class="string">&#x27;-&#x27;</span>) sign=<span class="number">-1</span>;op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	<span class="keyword">while</span>(op&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;op&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;x=x*<span class="number">10</span>+(op<span class="number">-48</span>);op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	x*=sign;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> to[maxm],nxt[maxm],head[maxn];</span><br><span class="line"><span class="type">int</span> tot,n;<span class="type">bool</span> vis[maxn];<span class="type">int</span> cnt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Eadd</span><span class="params">(<span class="type">int</span> u,<span class="type">int</span> v)</span></span>&#123;</span><br><span class="line">	to[++tot]=v;nxt[tot]=head[u];</span><br><span class="line">	head[u]=tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(vis[u]) <span class="keyword">return</span>;</span><br><span class="line">	cnt++;vis[u]=<span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=head[u];i;i=nxt[i])</span><br><span class="line">		<span class="built_in">dfs</span>(to[i]);</span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;factory.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;factory.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="built_in">fcin</span>(n); <span class="type">int</span> x,y;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;<span class="built_in">fcin</span>(x);<span class="built_in">fcin</span>(y);<span class="built_in">Eadd</span>(y,x);&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="built_in">memset</span>(vis,<span class="literal">false</span>,<span class="built_in">sizeof</span>(vis));cnt=<span class="number">0</span>;</span><br><span class="line">		<span class="built_in">dfs</span>(i);<span class="keyword">if</span>(cnt==n)&#123;<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,i);<span class="keyword">return</span> <span class="number">0</span>;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;-1&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-奶牛觅食（dining-cpp）"><a href="#3-奶牛觅食（dining-cpp）" class="headerlink" title="3.奶牛觅食（dining.cpp）"></a>3.奶牛觅食（dining.cpp）</h2><h3 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h3><p>漫长的一天结束了，饥困交加的奶牛们准备返回牛棚。农场由N片牧场组成（2≤N≤50,000），方便起见编号为1…N。所有奶牛都要前往位于牧场N的牛棚。其他N−1片牧场中每片有一头奶牛。奶牛们可以通过M条无向的小路在牧场之间移动（1≤M≤100,000）。第i条小路连接牧场ai和bi，通过需要时间ti。每头奶牛都可以经过一些小路回到牛棚。</p>
+<p>由于饥饿，奶牛们很乐于在他们回家的路上停留一段时间觅食。农场里有K(1≤K≤n)个有美味的干草捆，第ii个干草捆的美味值为yi。每头奶牛都想要在她回牛棚的路上在某一个干草捆处停留，但是她这样做仅当经过这个干草捆使她回牛棚的时间增加不超过这个干草捆的美味值。注意一头奶牛仅仅“正式地”在一个干草捆处因进食而停留，即使她的路径上经过其他放有干草捆的牧场；她会简单地无视其他的干草捆。</p>
+<h3 id="Input-2"><a href="#Input-2" class="headerlink" title="Input"></a>Input</h3><p>输入的第一行包含三个空格分隔的整数N，M和K。以下M行每行包含三个整数ai，bi和ti，表示牧场ai和bi之间有一条需要ti时间通过的小路（ai不等于bi，ti为不超过10^4的正整数）。</p>
+<p>以下K行，每行以两个整数描述了一个干草捆：该干草捆所在牧场的编号，以及它的美味值（一个不超过10^9的正整数）。同一片牧场中可能会有多个干草捆。</p>
+<h3 id="Output-2"><a href="#Output-2" class="headerlink" title="Output"></a>Output</h3><p>输出包含N−1行。如果牧场i里的奶牛可以在回牛棚的路上前往某一个干草捆并且在此进食，则第i行为一个整数1，否则为一个整数0。</p>
+<h3 id="Sample-Input-2"><a href="#Sample-Input-2" class="headerlink" title="Sample Input"></a>Sample Input</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">4 5 1</span><br><span class="line">1 4 10</span><br><span class="line">2 1 20</span><br><span class="line">4 2 3</span><br><span class="line">2 3 5</span><br><span class="line">4 3 2</span><br><span class="line">2 7</span><br></pre></td></tr></table></figure>
+<h3 id="Sample-Output-2"><a href="#Sample-Output-2" class="headerlink" title="Sample Output"></a>Sample Output</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">1</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<h3 id="Hint-2"><a href="#Hint-2" class="headerlink" title="Hint"></a>Hint</h3><p>在这个例子中，牧场3里的奶牛可以停留进食，因为她回去的时间仅会增加6（从2增加到8），而这个增加量并没有超过干草捆的美味值7。牧场2里的奶牛显然可以吃掉牧场2里的干草，因为这并不会导致她的最佳路径发生变化。对于牧场1里的奶牛是一个有趣的情况，因为看起来她的最佳路径（10）可能会因为前去进食而有过大的增加量。然而，确实存在一条路径使得她可以前去干草捆处停留：先到牧场4，然后去牧场2（吃草），然后回到牧场4。</p>
+<h3 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h3><blockquote>
+<p><strong>做法一：SPFA + 少量递推（100分）</strong></p>
+</blockquote>
+<p>首先用 SPFA 求出所有点到点 n 的单源最短路径，考虑经过有干草的牧场对于奶牛心理的影响</p>
+<p>设 $dist[i][0]$ 表示原本的单源最短路径，$dist[i][1]$ 表示在某一个牧场吃过草后心理上的最短路径，显然，若对于奶牛 $i$ 有 $dist[i][1]\leq dist[i][0]$，则奶牛 $i$ 是可以吃了草再走回牛棚的</p>
+<p>其实在第一遍用 SPFA 求 $dist[i][0]$ 的时候可以把 $dist[i][1]$ 顺带求了，具体是：</p>
+<p>$dist[i’][1]=min(dist[i][1]+w,\;dist[i][0]+w-f[i’])$ </p>
+<p>其中 $i’$ 表示 SPFA 当前考虑的下一个点，$f[i’]$ 表示其美味程度，<strong>注意要严格控制 $dist[i][1]$ 为吃了草才能形成的最短路径，可以将没有干草的点弄成 $f[x]=-inf$</strong> </p>
+<blockquote>
+<p><strong>做法二：两次 SPFA（100分）</strong></p>
+</blockquote>
+<p>第一遍 SPFA 求各个点到 n 的单源最短路径，第二遍 SPFA 开始时不要将 $dist$ 数组全部赋值 INF，<strong>将带有干草的那几个点的 $dist$ 值设定成美味程度，n 点的 $dist$ 为零，其他点的 $dist$ 设置为 INF 即可求出通过吃草走出的到 n 点的最短路径</strong>，剩下的部分处理思路同做法一</p>
+<h3 id="Codes-2"><a href="#Codes-2" class="headerlink" title="Codes"></a>Codes</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxn 100001</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> maxm maxn*2</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> t&gt;<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">fcin</span><span class="params">(t &amp;x)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> sign=<span class="number">1</span>; x=<span class="number">0</span>; <span class="type">char</span> op=<span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(op&lt;<span class="string">&#x27;0&#x27;</span>||op&gt;<span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(op==<span class="string">&#x27;-&#x27;</span>) sign=<span class="number">-1</span>;op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	<span class="keyword">while</span>(op&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;op&lt;=<span class="string">&#x27;9&#x27;</span>)&#123;x=x*<span class="number">10</span>+(op<span class="number">-48</span>);op=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">	x*=sign;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> deli[maxn];</span><br><span class="line"><span class="type">int</span> dist[maxn][<span class="number">2</span>];</span><br><span class="line"><span class="type">int</span> to[maxm],w[maxm],nxt[maxm];</span><br><span class="line"><span class="type">int</span> head[maxn],tot;<span class="type">bool</span> vis[maxn];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Eadd</span><span class="params">(<span class="type">int</span> u,<span class="type">int</span> v,<span class="type">int</span> ww)</span></span>&#123;</span><br><span class="line">	to[++tot]=v;w[tot]=ww;</span><br><span class="line">	nxt[tot]=head[u];head[u]=tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> n,m,k;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SPFA</span><span class="params">(<span class="type">int</span> s)</span></span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dist,<span class="number">0x3f</span>,<span class="built_in">sizeof</span>(dist));</span><br><span class="line">	queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">	dist[s][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">	vis[s]=<span class="literal">true</span>;</span><br><span class="line">	<span class="type">int</span> qhead; q.<span class="built_in">push</span>(s);</span><br><span class="line">	<span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">		qhead=q.<span class="built_in">front</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">		vis[qhead]=<span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=head[qhead];i;i=nxt[i])&#123;</span><br><span class="line">			<span class="keyword">if</span>(dist[to[i]][<span class="number">0</span>]&gt;dist[qhead][<span class="number">0</span>]+w[i])&#123;</span><br><span class="line">				dist[to[i]][<span class="number">0</span>]=dist[qhead][<span class="number">0</span>]+w[i];</span><br><span class="line">				<span class="keyword">if</span>(!vis[to[i]])&#123;</span><br><span class="line">					q.<span class="built_in">push</span>(to[i]);</span><br><span class="line">					vis[to[i]]=<span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(dist[to[i]][<span class="number">1</span>]&gt;dist[qhead][<span class="number">1</span>]+w[i])&#123;</span><br><span class="line">				dist[to[i]][<span class="number">1</span>]=dist[qhead][<span class="number">1</span>]+w[i];</span><br><span class="line">				<span class="keyword">if</span>(!vis[to[i]])&#123;</span><br><span class="line">					q.<span class="built_in">push</span>(to[i]);</span><br><span class="line">					vis[to[i]]=<span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(dist[to[i]][<span class="number">1</span>]&gt;dist[qhead][<span class="number">0</span>]+w[i]-deli[to[i]])&#123;</span><br><span class="line">				dist[to[i]][<span class="number">1</span>]=dist[qhead][<span class="number">0</span>]+w[i]-deli[to[i]];</span><br><span class="line">				<span class="keyword">if</span>(!vis[to[i]])&#123;</span><br><span class="line">					q.<span class="built_in">push</span>(to[i]);</span><br><span class="line">					vis[to[i]]=<span class="literal">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="meta">#<span class="keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;dining.in&quot;</span>,<span class="string">&quot;r&quot;</span>,stdin);</span><br><span class="line">	<span class="built_in">freopen</span>(<span class="string">&quot;dining.out&quot;</span>,<span class="string">&quot;w&quot;</span>,stdout);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="built_in">fcin</span>(n);<span class="built_in">fcin</span>(m);<span class="built_in">fcin</span>(k);</span><br><span class="line">	<span class="type">int</span> x,y,z,fx,fy;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="built_in">fcin</span>(x);<span class="built_in">fcin</span>(y);<span class="built_in">fcin</span>(z);</span><br><span class="line">		<span class="built_in">Eadd</span>(x,y,z);<span class="built_in">Eadd</span>(y,x,z);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memset</span>(deli,<span class="number">-0x3f</span>,<span class="built_in">sizeof</span>(deli));</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=k;i++)&#123;</span><br><span class="line">		<span class="built_in">fcin</span>(x);<span class="built_in">fcin</span>(y);</span><br><span class="line">		deli[x]=<span class="built_in">max</span>(deli[x],y);</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">if</span>(deli[n]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n<span class="number">-1</span>;i++) <span class="built_in">printf</span>(<span class="string">&quot;1\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">SPFA</span>(n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(dist[i][<span class="number">0</span>]&gt;=dist[i][<span class="number">1</span>]) <span class="built_in">printf</span>(<span class="string">&quot;1\n&quot;</span>);</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;0\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yan2u</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2019/07/13/2019-07-13-0713%E8%80%83%E8%AF%95/">http://example.com/2019/07/13/2019-07-13-0713%E8%80%83%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Yan2u's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SPFA/">SPFA</a><a class="post-meta__tags" href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a><a class="post-meta__tags" href="/tags/%E6%A8%A1%E6%8B%9F/">模拟</a><a class="post-meta__tags" href="/tags/%E9%80%92%E6%8E%A8/">递推</a></div><div class="post_share"><div class="social-share" data-image="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/07/16/2019-07-16-0716%E8%80%83%E8%AF%95/"><img class="prev-cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">动态规划 | 01分数规划 | 并查集  \ | 拓扑排序 | 二分| 图论 | 20190716考试  ：解题报告</div></div></a></div><div class="next-post pull-right"><a href="/2019/07/12/2019-07-12-0712%E8%80%83%E8%AF%95%E6%8A%A5%E5%91%8A/"><img class="next-cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">启发式合并 | 二分 | 线段树 | 主  席树 | 20190712考试：解题报告</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2019/07/23/2019-07-23-190723%E8%80%83%E8%AF%95/" title="递推 | 矩阵 | SPFA | 模拟 | 数论 | 20190723考  试：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-23</div><div class="title">递推 | 矩阵 | SPFA | 模拟 | 数论 | 20190723考  试：解题报告</div></div></a></div><div><a href="/2019/04/06/2019-04-06-%E6%9C%80%E5%B0%8F%E5%9C%88/" title="图论 | 最短路径 | SPFA | 最小圈"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-06</div><div class="title">图论 | 最短路径 | SPFA | 最小圈</div></div></a></div><div><a href="/2019/04/15/2019-04-15-%E5%9B%BE%E8%AE%BA%E8%80%83%E8%AF%951/" title="图论 | 最短路径 | SPFA | 20190414 考试(图  论综合1)"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-04-15</div><div class="title">图论 | 最短路径 | SPFA | 20190414 考试(图  论综合1)</div></div></a></div><div><a href="/2019/06/24/2019-06-24-%E8%80%83%E8%AF%95%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/" title="图论 | SPFA | 20190623考试：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-24</div><div class="title">图论 | SPFA | 20190623考试：解题报告</div></div></a></div><div><a href="/2019/08/20/2019-08-20-0820%E8%80%83%E8%AF%95/" title="数论| SPFA | 图论 | 分治 | 20190820考试解  题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-08-20</div><div class="title">数论| SPFA | 图论 | 分治 | 20190820考试解  题报告</div></div></a></div><div><a href="/2019/10/22/2019-10-22-exam/" title="动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告"><img class="cover" src="https://s1.ax1x.com/2022/08/11/v8u55Q.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-22</div><div class="title">动态规划 | SPFA | 字符串 | 201901022考试  ：解题报告</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s1.ax1x.com/2022/06/20/XjjdfK.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yan2u</div><div class="author-info__description">A LOOOSER</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yan2u"><i class="fab fa-github"></i><span>Yan2u - Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Yan2u" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1955997092@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E9%99%90%E5%88%B6%E4%B8%80%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">题目限制一览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%95%91%E7%81%AB%EF%BC%88buckets-cpp%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 救火（buckets.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input"><span class="toc-number">2.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output"><span class="toc-number">2.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input"><span class="toc-number">2.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output"><span class="toc-number">2.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint"><span class="toc-number">2.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">2.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes"><span class="toc-number">2.8.</span> <span class="toc-text">Codes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A5%B6%E7%89%9B%E5%B7%A5%E5%8E%82%EF%BC%88factory-cpp%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">2.奶牛工厂（factory.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-1"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-1"><span class="toc-number">3.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-1"><span class="toc-number">3.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-1"><span class="toc-number">3.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-1"><span class="toc-number">3.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint-1"><span class="toc-number">3.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-1"><span class="toc-number">3.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes-1"><span class="toc-number">3.8.</span> <span class="toc-text">Codes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A5%B6%E7%89%9B%E8%A7%85%E9%A3%9F%EF%BC%88dining-cpp%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">3.奶牛觅食（dining.cpp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Description-2"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Input-2"><span class="toc-number">4.2.</span> <span class="toc-text">Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output-2"><span class="toc-number">4.3.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Input-2"><span class="toc-number">4.4.</span> <span class="toc-text">Sample Input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Output-2"><span class="toc-number">4.5.</span> <span class="toc-text">Sample Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hint-2"><span class="toc-number">4.6.</span> <span class="toc-text">Hint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-2"><span class="toc-number">4.7.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Codes-2"><span class="toc-number">4.8.</span> <span class="toc-text">Codes</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/03/19/2020-03-19-Deepin/" title="Deepin 初体验">Deepin 初体验</a><time datetime="2020-03-18T16:00:00.000Z" title="发表于 2020-03-19 00:00:00">2020-03-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/03/17/2020-03-17-Neumorphic/" title="Neumorphism UI： 新拟态设计">Neumorphism UI： 新拟态设计</a><time datetime="2020-03-16T16:00:00.000Z" title="发表于 2020-03-17 00:00:00">2020-03-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/02/02/2020-02-02-LRCEditor01/" title="LrcEditor开发记（一）api接口">LrcEditor开发记（一）api接口</a><time datetime="2020-02-01T16:00:00.000Z" title="发表于 2020-02-02 00:00:00">2020-02-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/31/2019-10-31-exam/" title="动态规划 | 线段树 | 0/1分数规划  \ | 图论  | 201901031考试：解题报告">动态规划 | 线段树 | 0/1分数规划  \ | 图论  | 201901031考试：解题报告</a><time datetime="2019-10-30T16:00:00.000Z" title="发表于 2019-10-31 00:00:00">2019-10-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/25/2019-10-25-exam/" title="动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告">动态规划 | 贪心 | 图论 | 201901025考试  ：解题报告</a><time datetime="2019-10-24T16:00:00.000Z" title="发表于 2019-10-25 00:00:00">2019-10-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Yan2u</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/hexo-github-calendar@1.16/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://python-github-calendar-api.vercel.app/api?yan2u";
+            var git_color =['#ebedf0', '#f0fff4', '#dcffe4', '#bef5cb', '#85e89d', '#34d058', '#28a745', '#22863a', '#176f2c', '#165c26', '#144620'];
+            var git_user ="yan2u";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style>undefined</style><!-- hexo injector body_end end --></body></html>
