@@ -42,6 +42,7 @@
 }
 
 .relatedPosts > .relatedPosts-list > div:hover{
+	color: #49b1f5;
 	box-shadow: 0 0 8px 0 rgb(232 237 250 / 60%), 0 2px 4px 0 rgb(232 237 250 / 50%);
 	transition: all 0.3s ease-in-out;
 }
@@ -56,4 +57,9 @@
 
 .relatedPosts > .relatedPosts-list .content .title{
 	color: inherit;
+}
+
+#pagination .prev-post img, #pagination .next-post img, .relatedPosts > .relatedPosts-list > div img{
+	display: none;
+
 }
