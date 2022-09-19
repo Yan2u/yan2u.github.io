@@ -1,36 +1,59 @@
-#web_bg {
-    background: linear-gradient(90deg,rgba(247,149,51,.1),rgba(243,112,85,.1) 15%,rgba(239,78,123,.1) 30%,rgba(161,102,171,.1) 44%,rgba(80,115,184,.1) 58%,rgba(16,152,173,.1) 72%,rgba(7,179,155,.1) 86%,rgba(109,186,130,.1))
+#card-info-btn{
+	border-radius: 8px;
 }
 
-#aside-content .card-widget {
-    background: var(--light_bg_color) !important;
-    backdrop-filter: saturate(100%) blur(25px)
+.toc-link.active{
+	border-radius: 8px;
+	box-shadow: 0 8px 12px -3px rgba(0,196,182,0.2);
 }
 
-#footer {
-    background: rgba(255,255,255,.15);
-    color: #000;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    backdrop-filter: saturate(100%) blur(25px)
+#pagination .prev-post .label, #pagination .next-post .label{
+	color: inherit;
 }
 
-#footer::before {
-    background: rgba(255,255,255,.15)
+#pagination .next_info, #pagination .prev_info{
+	color: inherit;
 }
 
-#footer #footer-wrap {
-    color: var(--font-color)
+#pagination .prev-post a, #pagination .next-post a{
+	color: inherit;
 }
 
-#footer #footer-wrap a {
-    color: var(--font-color)
+#pagination.pagination-post{
+	background: var(--card-bg);
+	color: var(--font-color);
+	border: var(--light-grey) 1px solid;
 }
 
-.postImgHover img, #pagination .prev-post img, #pagination .next-post img, .relatedPosts > .relatedPosts-list > div img{
-    background: url("https://s1.ax1x.com/2022/08/11/vG5nwd.jpg");
+#pagination.pagination-post:hover{
+	box-shadow: 0 0 8px 0 rgb(232 237 250 / 60%), 0 2px 4px 0 rgb(232 237 250 / 50%);
+	transition: all 0.3s ease-in-out;
 }
 
-#aside-content .card-archives ul.card-archive-list > .card-archive-list-item a, #aside-content .card-categories ul.card-category-list > .card-category-list-item a:hover {
-    border-radius: 8px;
+#pagination .prev-post:hover, #pagination .next-post:hover{
+	color: #49b1f5;
+	transition: all 0.3s ease-in-out;
+}
+
+.relatedPosts > .relatedPosts-list > div{
+	background: var(--card-bg);
+	color: var(--font-color);
+	border: var(--light-grey) 1px solid;
+}
+
+.relatedPosts > .relatedPosts-list > div:hover{
+	box-shadow: 0 0 8px 0 rgb(232 237 250 / 60%), 0 2px 4px 0 rgb(232 237 250 / 50%);
+	transition: all 0.3s ease-in-out;
+}
+
+.relatedPosts > .relatedPosts-list > div > a{
+	color: inherit;
+}
+
+.relatedPosts > .relatedPosts-list .content .date{
+	color: inherit;
+}
+
+.relatedPosts > .relatedPosts-list .content .title{
+	color: inherit;
 }
