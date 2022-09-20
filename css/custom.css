@@ -61,5 +61,12 @@
 
 #pagination .prev-post img, #pagination .next-post img, .relatedPosts > .relatedPosts-list > div img{
 	display: none;
+}
 
+#aside-content .card-archives ul.card-archive-list > .card-archive-list-item a:hover, #aside-content .card-categories ul.card-category-list > .card-category-list-item a:hover{
+	border-radius: 8px;
+}
+
+#pagination .page-number.current{
+	border-radius: 8px;
 }
